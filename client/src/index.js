@@ -5,6 +5,7 @@ import Blog from './views/blog/blog';
 import View from './views/blog/view';
 import Contact from './views/blog/contact';
 import Login from './views/admin/login';
+import Signup from './views/admin/signup';
 import Editor from './views/admin/editor';
 import NotFound from './views/blog/404';
 import Dashboard from './views/admin/dashboard';
@@ -19,7 +20,8 @@ const routing = (
         <Route path="/contact" component={Contact}/>
         <Route exact path="/admin/editor" component={Editor} />
         <Route exact path="/admin/editor/:cid/:id" component={Editor} />
-       	<Route path="/admin/login" component={Login}/>
+        <Route path="/admin/login" component={Login} />
+        <Route path="/admin/signup" component={Signup}/>
 	<Route path="/404" component={NotFound}/>
         <Route path="/admin/dashboard" component={Dashboard}/>
       </div>

@@ -101,7 +101,7 @@ class Blog extends Component {
         <meta name="description" content="Explore more on Aziz Stark's blog" />
         <Navba></Navba>
         <div style={{ height: '100%' }}>
-          <h1 className={bstyles.sidebar}>AZIZSTARK'S BLOG</h1>
+          <h1 className={bstyles.sidebar}>U-Learn</h1>
           <section className={`hero is-fullheight`}  >
             <div className="columns is-desktop" >
               <div className="column" >
@@ -109,7 +109,7 @@ class Blog extends Component {
               </div>
               <div className={`column ${bstyles.htitle}`}>
                 <div className={bstyles.adapt}>
-                  <h1 className={bstyles.title1}>Welcome to Cassiopeia CMS</h1>
+                  <h1 className={bstyles.title1}>Hello, welcome to the U-learn.</h1>
                 </div>
               </div>
             </div>

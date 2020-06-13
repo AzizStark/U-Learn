@@ -7,13 +7,15 @@ import bstyles from '../blog/blog.module.css';
 import forest from './forest.jpg'
 import Footer from '../blog/footer';
 
-class login extends Component {
+class signup extends Component {
     constructor(props) {
         super(props);
         this.state = {
             logindata: {
+                "user_name": "",
                 "user_email": "",
                 "user_password": "",
+                "cpassword": "",
                 "user_type": "student"
             },
             userMode: ["is-active", ""]
@@ -28,28 +30,34 @@ class login extends Component {
         this.setState({ logindata: data });
     }
 
-    login = (event) => {
+    signup = (event) => {
         event.preventDefault()
-        axios.post("/api/login", {userType: this.state.logindata['user_type']},
-        {
-            auth: {
-                username: this.state.logindata['user_email'],
-                password: this.state.logindata['user_password']
-            }
-        })
-        .then(res => {
-            if (res.data) {
-                this.props.history.push('/');
-            }
-        })
-        .catch(err => {
-            if (err.response.status === 404) {
-                window.alert("Account not found")
-            }
-            else if (err.response.status === 401) {
-                window.alert("Incorrect password")
-            }
-        });
+        if (this.state.logindata['user_password'] === this.state.logindata['cpassword']) {
+            axios.post("/api/signup", { email: this.state.logindata['user_email'], userType: this.state.logindata['user_type'] },
+                {
+                    auth: {
+                        username: this.state.logindata['user_name'],
+                        password: this.state.logindata['user_password']
+                    }
+                })
+                .then(res => {
+                    if (res.data) {
+                        this.props.history.push('/');
+                    }
+                })
+                .catch(err => {
+                    if (err.response.status === 309 && err.response.data.email === this.state.logindata['user_email']) {
+                        console.log()
+                        window.alert("Account already exists")
+                    }
+                    else if (err.response.status === 309) {
+                        window.alert("Username taken, please try a different name.")
+                    }
+                });
+        }
+        else {
+            window.alert("Password doesn't match")
+        }
     }
 
 
@@ -74,7 +82,7 @@ class login extends Component {
                 </div>
                 <div className="column" >
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', margin: 0, minHeight: '100vh' }} >
-                        <form className={bstyles.holder} onSubmit={this.login}>
+                        <form className={bstyles.holder} onSubmit={this.signup}>
                         <div className="tabs is-toggle is-fullwidth">
                             <ul>
                                 <li className={this.state.userMode[0]} onClick = {() => this.changeType('S')}>
@@ -92,9 +100,15 @@ class login extends Component {
                             </ul>
                             </div>
 
-                            <h1 className='title' style={{ fontSize: 50, color: 'white', textAlign: 'center', fontWeight: 700, letterSpacing: '0.1em' }} > Login </h1> <br />
+                            <h1 className='title' style={{ fontSize: 50, color: 'white', textAlign: 'center', fontWeight: 700, letterSpacing: '0.1em' }} > Sign up </h1> <br />
                             <p className="control has-icons-left">
                                 <input onChange={this.updateForm} name="user_name" className={bstyles.inputarea} type="user_name" placeholder="Username" required />
+                                <span className="icon is-small is-left">
+                                    <FontAwesomeIcon icon={faEnvelope} size="1x" />
+                                </span>
+                            </p><br /><br />
+                            <p className="control has-icons-left">
+                                <input onChange={this.updateForm} name="user_email" className={bstyles.inputarea} type="email" placeholder="Email" required />
                                 <span className="icon is-small is-left">
                                     <FontAwesomeIcon icon={faEnvelope} size="1x" />
                                 </span>
@@ -106,11 +120,15 @@ class login extends Component {
                                 </span>
                             </p>
                             <br /><br />
+                            <p className="control has-icons-left">
+                                <input onChange={this.updateForm} name="cpassword"  className={bstyles.inputarea} type="password" placeholder="Confirm Password" required />
+                                <span className="icon is-small is-left">
+                                    <FontAwesomeIcon icon={faLock} size="1x" />
+                                </span>
+                            </p>
+                            <br /><br />
                             <center>
-                                <button className={bstyles.nbutton} value="submit"> Login </button>
-                                <br />
-                                <br />
-                                <a href="/admin/signup"> or Signup</a>
+                                <button className={bstyles.nbutton} value="submit"> Sign up </button>
                             </center>
                         </form>
                     </div>
@@ -121,4 +139,4 @@ class login extends Component {
     }
 }
 
-export default login;
+export default signup;
