@@ -19,7 +19,6 @@ class Blog extends Component {
       pivot: 0,
       active: true,
       email: "",
-      userData: "",
     };
   }
   showIt = (elementId) => {
@@ -29,12 +28,6 @@ class Blog extends Component {
 
   componentDidMount() {
     this.getPosts()
-    axios.get('/api/isLogged')
-      .then(res => {
-          this.setState({ userData: [res.data.user, res.data.type]})
-      }).catch(err => {
-        console.log(err)
-      })
   }
 
   getPosts = () => {
@@ -106,7 +99,7 @@ class Blog extends Component {
         <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&display=swap" rel="stylesheet" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <meta name="description" content="Explore more on Aziz Stark's blog" />
-        <Navba userData = {this.state.userData}></Navba>
+        <Navba></Navba>
         <div style={{ height: '100%' }}>
           <h1 className={bstyles.sidebar}>U-Learn</h1>
           <section className={`hero is-fullheight`}  >
@@ -133,7 +126,7 @@ class Blog extends Component {
             <div className={`container ${bstyles.holder}`}>
               <form onSubmit={(e) => this.subscribe(e)}>
                 <br />
-                <h1 className='title' style={{ color: 'white', textAlign: 'center' }} >Join my blog</h1><br />
+                <h1 className='title' style={{ color: 'white', textAlign: 'center' }} >Subscribe to receive offers</h1><br />
                 <center><input className={`${bstyles.inputarea} ${bstyles.inputx}`} onChange={(e) => this.setState({ email: e.target.value })} name="user_email" placeholder="Your email address" type='email' required /></center><br />
                 <br />
                 <center><input className={bstyles.nbutton} type='submit' value="Subscribe" /></center>
@@ -147,15 +140,15 @@ class Blog extends Component {
   }
 }
 
-function box(wtype, title, cid, date, index, image, tag) {
+function box(wtype, title, cid, date, index, image, tag, author) {
   return (<div className={`column is-full-touch ${bstyles.wrapper} ${wtype} ${bstyles.slider}`} key={index}>
     <Link to={{ pathname: `blog/${cid}/${title.replace(/ /g, "-")}` }} style={{ color: 'inherit' }}>
       <LazyLoadComponent>
         <div className={`${bstyles.box}`} style={{ backgroundImage: `linear-gradient(42.51deg, rgba(3, 3, 3, 0.55) -3.51%, rgba(86, 85, 85, 0.51) 97.42%),url(https://res.cloudinary.com/azizcloud/image/upload/${transformations.transformations.cards}${image.slice(50)})` }}>
           <h1 className={bstyles.htext}>{title}</h1>
           <br />
-          <h1 className={bstyles.stext}>{date}</h1>
-          <h1 className={bstyles.tag}>{tag}</h1>
+          <h1 className={bstyles.stext}>{tag}</h1>
+          <h1 className={bstyles.tag}>{author}</h1>
         </div>
       </LazyLoadComponent>
     </Link>
@@ -187,7 +180,7 @@ function deck(nposts) {
     sliced.map((user, index) =>
       <div className={`columns is-desktop ${bstyles.deck}`} key={index}>
         {sliced[index].map((user, inde) =>
-          box(((sliced[index].length === 2 && inde === dual) ? ("is-one-third") : (sliced[index].length === 2 ? ("is-two-thirds") : (sliced[index].length === 3 ? ("is-one-third") : ("")))), sliced[index][inde].title, sliced[index][inde].cid, sliced[index][inde].date, inde, sliced[index][inde].imageurl, sliced[index][inde].tag)
+          box(((sliced[index].length === 2 && inde === dual) ? ("is-one-third") : (sliced[index].length === 2 ? ("is-two-thirds") : (sliced[index].length === 3 ? ("is-one-third") : ("")))), sliced[index][inde].title, sliced[index][inde].cid, sliced[index][inde].date, inde, sliced[index][inde].imageurl, sliced[index][inde].tag, sliced[index][inde].author)
         )}
         {change(dual)}
       </div>)

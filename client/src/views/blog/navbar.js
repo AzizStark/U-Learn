@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import bstyles from './blog.module.css';
 import polygon from './Polygon.svg'
-
+import axios from 'axios';
 class Navba extends Component {
 
 
@@ -13,16 +13,13 @@ class Navba extends Component {
     }
   }
 
-  componentWillReceiveProps(props) {
-    this.setState({
-      userData: props.userData
-    })
-  }
-
   componentDidMount() {
-    this.setState({
-      userData: this.props.userData
-    })
+    axios.get('/api/isLogged')
+      .then(res => {
+          this.setState({ userData: [res.data.user, res.data.type]})
+      }).catch(err => {
+        console.log(err)
+      })
   }
 
   showIt = (elementId, e) => {
@@ -71,9 +68,8 @@ class Navba extends Component {
         <div id="navbarBasicExample" className={`navbar-menu ${this.state.burger}`}>
           <div className="navbar-end" style={{ fontWeight: 'bold' }} >
             <a className="navbar-item" id={bstyles.navbarItem} href="/blog">Home</a>
-            <a className="navbar-item" id={bstyles.navbarItem} href="/" >About</a>
             <a className="navbar-item" id={bstyles.navbarItem} href="/contact">Contact</a>
-            <a className="navbar-item" id={bstyles.navbarItem} href={this.state.userData[0] !== undefined ? "/admin/dashboard" : "/admin/login"} style={this.state.userData[0] !== undefined ? {color: "#f9c567"} : {color: "white"}} >{this.state.userData[0] !== undefined ? "Welcome "+this.state.userData[1]+", "+this.state.userData[0] : "Login"  }</a>
+            <a className="navbar-item" id={bstyles.navbarItem} href={this.state.userData[0] !== undefined ? (this.state.userData[1] === "student" ? "/admin/Sdashboard" : "/admin/Tdashboard") : "/admin/login"} style={this.state.userData[0] !== undefined ? {color: "#f9c567"} : {color: "white"}} >{this.state.userData[0] !== undefined ? "Welcome "+this.state.userData[1]+", "+this.state.userData[0] : "Login"  }</a>
           </div>
         </div>
       </nav>

@@ -17,13 +17,26 @@ class view extends Component {
       date: "",
       tag: "",
       content: "",
-      image: ""
+      image: "",
+      author: "",
+      userType: "",
+      enrolled: [],
+      isEnrolled: false
     };
   }
 
   componentDidMount() {
     window.scrollTo(0, 0)
     this.getPosts()
+    axios.get('/api/isLogged')
+      .then(res => {
+        this.setState({ userType: res.data.type })
+        if (res.data.type === 'student') {
+          this.getEnrolledList()
+        }
+      }).catch(err => {
+        console.log(err)
+      })
   }
 
   getPosts = () => {
@@ -31,7 +44,7 @@ class view extends Component {
     var cid = path.slice(6, path.lastIndexOf('/'))
     axios.get('/api/viewpost', {
       params: {
-        title: path.slice(7 + cid.length).replace(/-/g,' '),
+        title: path.slice(7 + cid.length).replace(/-/g, ' '),
         cid: cid
       }
     })
@@ -42,15 +55,54 @@ class view extends Component {
             title: res.data.title,
             date: res.data.date,
             tag: res.data.tag,
+            author: res.data.author,
             content: res.data.content,
             image: res.data.imageurl
           })
         }
-	else{
+        else {
           this.props.history.push('/404')
         }
       })
       .catch(err => this.props.history.push('/404'))
+  }
+
+  enrollCourse = () => {
+    if (this.state.isEnrolled) {
+      window.alert("Course already enrolled")
+    }
+    else {
+      axios.post('/api/enrollnew', {
+        id: this.state.uid,
+        cid: this.props.match.params.id,
+        title: this.state.title,
+        tag: this.state.tag,
+        author: this.state.author
+      })
+        .then(res => {
+          window.alert("Enrolled successfully!")
+        })
+        .catch(err => console.log(err))
+    }
+  }
+
+
+
+  getEnrolledList = () => {
+    const limit = 6
+    axios.get('/api/enrolledtitles', {
+    })
+      .then(res => {
+        let data = res.data.courses
+        let courselist = []
+        data.forEach((el) => courselist.push(el.id))
+        let isEnrolled = courselist.includes(this.state.uid)
+        this.setState({
+          enrolled: courselist,
+          isEnrolled: isEnrolled
+        })
+      })
+      .catch(err => console.log(err))
   }
 
   render() {
@@ -69,7 +121,7 @@ class view extends Component {
         <Navbar></Navbar>
         <div style={{ height: '100%' }}>
           <section className={`hero is-fullheight`}  >
-            <h1 className={bstyles.sidebar}>AZIZSTARK'S BLOG</h1>
+            <h1 className={bstyles.sidebar}>U - Learn</h1>
             <div className="columns is-desktop" >
               <div className="column" >
                 <img alt="header" src={`https://res.cloudinary.com/azizcloud/image/upload/${transformations.transformations.header}${(this.state.image).slice(50)}`} className={bstyles.head1} />
@@ -77,7 +129,14 @@ class view extends Component {
               <div className="column" style={{ maxWidth: '50%' }}>
                 <div className={bstyles.adapt}>
                   <h1 className={bstyles.title1}>{this.state.title}</h1>
-                  <p className={bstyles.title1} style={{ fontSize: 'calc(0.3vw + 12px)', paddingTop: 30, fontWeight: 300 }}>Posted on {this.state.date}</p>
+                  <p className={bstyles.title1} style={{ fontSize: 'calc(0.3vw + 12px)', paddingTop: 30, fontWeight: 300 }}>Provided by <b> {this.state.author} </b></p>
+                  {this.state.userType != 'teacher' ?
+                    <div className={bstyles.title1}>
+                      <button onClick={this.enrollCourse} className={bstyles.nbutton}> {this.state.isEnrolled === true ? "Enrolled" : "Enroll now"} </button>
+                    </div>
+                    :
+                    <p></p>
+                  }
                 </div>
               </div>
             </div>
@@ -92,7 +151,7 @@ class view extends Component {
                 shortname="AzizStark"
                 identifier={this.state.title + this.state.cid}
                 title={this.state.title}
-                url={window.location.href}   
+                url={window.location.href}
                 category_id={this.state.cid}
               />
             </div>

@@ -6,7 +6,7 @@ import forest from './forest.jpg';
 import Footer from '../blog/footer'
 import logo from '../blog/Polygon.svg'
 
-class Dashboard extends Component{
+class TDashboard extends Component{
 
 constructor(props) {
     super(props);
@@ -41,7 +41,7 @@ constructor(props) {
 
 getPosts = () => {
   const limit = 6
-  axios.get('/api/postitles',{
+  axios.get('/api/somepostitles',{
     params: {
       skip: this.state.pivot,
       limit: limit
@@ -175,7 +175,7 @@ loader = () => {
       <div className={`columns ${dstyles.dashboard}`} style={{paddingBottom: 0}}>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <div className="column" >
-              <h2 style={{fontSize: 40,color: 'white', textAlign: 'center', fontWeight: 700, letterSpacing: '0.05em'}} className="title"> Dashboard </h2>
+              <h2 style={{fontSize: 40,color: 'white', textAlign: 'center', fontWeight: 700, letterSpacing: '0.05em'}} className="title"> Teacher's Dashboard </h2>
               <div style={{minWidth: '68vw'}}>
               <div className="card" style={{ borderRadius: 6, backgroundSize: 'cover', backgroundImage: `url(${forest})`}}>
                   <div className="card-content columns" style={{borderRadius: 6,margin: 0,backdropFilter: 'blur(5px)',}}>     
@@ -198,46 +198,48 @@ loader = () => {
                     </div>
 
                     <div className="column columns" style={{flexDirection: 'column',backgroundColor: '#444449', padding: 10, borderRadius: 8, margin: 0}}>
-                      <button style={{marginBottom: 10}} className={`${dstyles.cbutton2} column`} onClick={()=>{window.open('editor#new')}}>Create Post</button>                         
+                      <button style={{marginBottom: 10}} className={`${dstyles.cbutton2} column`} onClick={()=>{window.open('editor#new')}}>Create Course</button>                         
                       <button className={`${dstyles.cbutton2} column`} onClick={(e)=>{this.logout()}}>Log out</button>  
                     </div>
                   
                   </div>
               </div>
-            <br/>
-            {this.state.pivot !== 0 ? (
-            <div className="columns" style={{marginTop: 20,margin: 0,padding: 8,flexDirection: 'column',borderRadius: 8, width: '100%', backgroundColor: "#3B3B40", color: '#fff'}}>
+              <br />
+              <center><h1 className="title" style={{ color: 'white' }}> Courses </h1> </center>
+              <br/>
+              {this.state.pivot !== 0 ? (
+                <div className="columns" style={{ marginTop: 20, margin: 0, padding: 8, flexDirection: 'column', borderRadius: 8, width: '100%', backgroundColor: "#3B3B40", color: '#fff' }}>
 
-            {scontent.map((post,index)  =>
-                <div className="column" style={{margin: 10, backgroundColor: '#222227', borderRadius: 8}} key={index}>
+                  {scontent.map((post, index) =>
+                    <div className="column" style={{ margin: 10, backgroundColor: '#222227', borderRadius: 8 }} key={index}>
                       <nav className="level">
                 
                         <div className={`level-left ${dstyles.dtitle}`}>
-                          <p style={{fontSize: 20, padding: 10}} >{index + 1}</p>
-                          <div style={{paddingLeft: 15}}>
-                            <p style={{wordBreak: 'break-word', fontSize: 22}}>{post.title}</p>
-                            <p style={{fontSize: 14, color: '#AAAAAA'}}>{post.date}</p> 
-                            <p style={{fontSize: 14, color: '#AAAAAA'}}>{post.tag}</p>
+                          <p style={{ fontSize: 20, padding: 10 }} >{index + 1}</p>
+                          <div style={{ paddingLeft: 15 }}>
+                            <p style={{ wordBreak: 'break-word', fontSize: 22 }}>{post.title}</p>
+                            <p style={{ fontSize: 14, color: '#AAAAAA' }}>{post.date}</p>
+                            <p style={{ fontSize: 14, color: '#AAAAAA' }}>{post.tag}</p>
                           </div>
                         </div>
                       
                         <div className="level-right" >
-                          <p style={{backgroundColor: '#3B3B40', borderRadius: 8, padding: 10, height: 50}} className="level-item">{post.vcount} views</p>
+                          <p style={{ backgroundColor: '#3B3B40', borderRadius: 8, padding: 10, height: 50 }} className="level-item">{post.vcount} views</p>
 
-                          <div className="level-item" style={{backgroundColor: '#3B3B40', borderRadius: 8, minWidth: 200}}>
-                            <input type='button' className={dstyles.cbutton} value="View" onClick={() => {window.open(`/blog/${post.cid}/${post.title}`)}} />
+                          <div className="level-item" style={{ backgroundColor: '#3B3B40', borderRadius: 8, minWidth: 200 }}>
+                            <input type='button' className={dstyles.cbutton} value="View" onClick={() => { window.open(`/blog/${post.cid}/${post.title}`) }} />
 
-                            <input type='button' className={dstyles.cbutton} value="Edit" onClick={() => {window.open(`/admin/editor/${post.cid}/${post.title}?m=edit`)}} />
+                            <input type='button' className={dstyles.cbutton} value="Edit" onClick={() => { window.open(`/admin/editor/${post.cid}/${post.title}?m=edit`) }} />
 
-                            <input type='button' className={dstyles.cbutton} value="Delete" onClick={(e) => {this.setState({target: index}) || this.toggleModal(e)}} />
+                            <input type='button' className={dstyles.cbutton} value="Delete" onClick={(e) => { this.setState({ target: index }) || this.toggleModal(e) }} />
                           </div>
                           
                         </div>
 
                       </nav>
-                </div>
-            )}
-            </div>): this.loader()}
+                    </div>
+                  )}
+                </div>) : <center><h1> No courses to display </h1> </center> }
             <div style={{ margin: 25,display: 'flex', flexDirection: 'column',justifyContent: 'center',height: 60}} >
              {(this.state.pivot > 0 && this.state.active) && <center ><div title="Load more" className={dstyles.loader} onClick={() => this.loadMore()}></div></center>}
             </div>
@@ -298,4 +300,4 @@ loader = () => {
   }
 }
 
-export default Dashboard;
+export default TDashboard;

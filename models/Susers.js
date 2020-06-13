@@ -22,7 +22,26 @@ const SSignSchema = new Schema({
   },
   courses: {
     type: Array,
-    maxlength: 100
+    value:
+    {
+      id: {
+        type: String,
+        required: true
+      },
+      cid: {
+        type: String,
+        required: true
+      },
+      title: {
+        type: String,
+      },
+      tag: {
+        type: String,
+      },
+      author: {
+        type: String
+      }
+    }
   },
   messages: {
     type: Array,

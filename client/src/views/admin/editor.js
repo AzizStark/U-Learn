@@ -86,7 +86,7 @@ onEditorStateChange: Function = (editorState) => {
   }
 };
 
-
+//creates a new post
 putPost = () => { 
   this.setState({space: "loading"})
   const content = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()))
