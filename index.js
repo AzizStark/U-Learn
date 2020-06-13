@@ -10,7 +10,7 @@ const app = express();
 
 require('dotenv').config();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 //connect to the database
 mongoose.connect(process.env.DB, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
@@ -33,7 +33,7 @@ app.use(session({
   secret: process.env.SECRET,
   resave: true,
   saveUninitialized: true,
-  maxAge: 5 * 60 * 60 * 1000, // 8 hours
+  maxAge: 5 * 60 * 60 * 1000, // 5 hours
 }))
 app.use('/api', routes);
 

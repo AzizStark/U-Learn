@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 //create schema for Post
-const PostSchema = new Schema({
+const CourseSchema = new Schema({
 
   cid: {
     type: Number,
@@ -15,6 +15,7 @@ const PostSchema = new Schema({
     required: [true, 'Image URL required'],
     maxlength: 300,
   },
+
   title: {
     type: String,
     required: [true, 'Title is required'],
@@ -31,6 +32,17 @@ const PostSchema = new Schema({
     type: String,
     required: [true, 'tag is required'],
     maxlength: 16
+  },
+
+  author: {
+    type: String,
+    required: [true, 'Title is required'],
+    maxlength: 80
+  },
+
+  registered: {
+    type: Array,
+    maxlength: 10000
   },
   
   content: {
@@ -54,6 +66,6 @@ const PostSchema = new Schema({
 
 
 //create model for posts
-const PostModel = mongoose.model('Post', PostSchema);
+const PostModel = mongoose.model('Course', CourseSchema);
 
 module.exports = PostModel;

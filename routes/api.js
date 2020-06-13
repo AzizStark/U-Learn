@@ -1,7 +1,9 @@
 import express from 'express';
-import Blog from '../models/Post';
+import Blog from '../models/Courses';
 import uimage from '../models/Images';
 import mailgun from 'mailgun-js';
+import Susers from '../models/Susers';
+import Tusers from '../models/Tusers';
 import { uploader, cloudinaryConfig, v2 } from '../config/cloudinaryConfig'
 import { multerUploads, dataUri } from '../middlewares/multerUpload';
 import mongoose from 'mongoose';
@@ -13,8 +15,6 @@ router.use("*", cloudinaryConfig);
 
 const DOMAIN = process.env.MAILDOMAIN;
 const mg = mailgun({ apiKey: process.env.MAILAPI, domain: DOMAIN });
-
-
 
 //Authentication Function to secure APIs
 const requireAuth = (req, res, next) => {
@@ -28,30 +28,113 @@ const requireAuth = (req, res, next) => {
 //Auth API for client routes
 router.get('/isLogged', (req, res, next) => {
   if(req.session.isLogged === true){
-    res.status(200).json({data: "Logged"})
+    res.status(200).json({data: "Logged", user: req.session.user, type: req.session.userType})
   }
   else{
     res.status(401).json({data: "Error"})
   }
 })
 
-//Login
-router.post('/login',(req,res,next) => {
+
+
+//for new user to sign up
+router.post('/signup', (req, res, next) => {
   const header = Buffer.from(req.headers.authorization.split(" ")[1], 'base64').toString()
   const index = header.lastIndexOf(':')
-  const user = header.slice(0,index)
+  const user = header.slice(0, index).toLowerCase()
   const pass = header.slice(index + 1)
+  const email = req.body.email.toLowerCase()
+  const current_date = (new Date()).valueOf().toString();
+  const random = Math.random().toString();
+  const pepper = crypto.createHash('sha1').update(current_date + random).digest('hex');
 
-  var hashed = crypto.pbkdf2Sync(pass, process.env.GOLD_KEY, 1000, 64, 'sha256').toString('hex');
+  const hash = crypto.pbkdf2Sync(pass, process.env.SALT + pepper, 1000, 64, 'sha256').toString('hex');
 
-  if(hashed === process.env.GOLD_BOX && user === process.env.ADMIN){
-    req.session.isLogged = true;
-    res.send("Logged In");
+  let userdb
+
+  if (req.body.userType == "student") {
+    userdb = Susers
   }
-  else{
-    res.send("Incorrect credentials")
+  else {
+    userdb = Tusers
   }
+
+  userdb.findOne({
+    $or: [
+      { email: email },
+      { userName: user }
+    ]
+  })
+    .then(data => {
+      if (data == null) {
+        userdb.create({
+          "userName": user,
+          "email": email,
+          "password": hash,
+          "pepper": pepper,
+          "courses": [],
+          "messages": []
+        })
+          .then(data => {
+            req.session.isLogged = true;
+            req.session.user = user
+            req.session.userType = req.body.userType
+            res.json(data)
+          })
+          .catch(err => console.log(err))
+      }
+      else {
+        res.status(309).json({
+          message: "Already exists",
+          email: data.email
+        })
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })
 })
+
+
+//login to create a session
+router.post('/login', (req, res, next) => {
+  const header = Buffer.from(req.headers.authorization.split(" ")[1], 'base64').toString()
+  const index = header.lastIndexOf(':')
+  const email = header.slice(0, index)
+  const pass = header.slice(index + 1)
+  
+  let userdb;
+
+  if (req.body.userType === "student") {
+    userdb = Susers
+  }
+  else {
+    userdb = Tusers
+  }
+
+  userdb.findOne({ $or: [{ email: email }, { userName: email }] })
+    .then(data => {
+      if (data !== null) {
+        var hashed = crypto.pbkdf2Sync(pass, process.env.SALT + data.pepper, 1000, 64, 'sha256').toString('hex');
+        if (hashed === data.password) {
+          req.session.isLogged = true;
+          req.session.user = data.userName
+          req.session.userType = req.body.userType
+          res.send("Login Successful");
+          //authenticated 
+        }
+        else {
+          res.status(401).json({ message: "Password Incorrect" })
+        }
+      }
+      else {
+        console.log(data)
+        res.status(404).json({ message: "Account not found" })
+      }
+    })
+    .catch(err => console.log(err))
+})
+
 
 
 //Logout by deleting seesion
@@ -211,7 +294,8 @@ router.post('/posts', requireAuth, (req, res, next) => {
   Blog.countDocuments({title: (req.body.title)}).then((count) => {
       if(req.body.title){
         req.body.date = new Date().toLocaleString('en-us',{month:'long', year:'numeric', day:'numeric'})
-        if(count == 0){
+        req.body.author = "James Bond"
+        if (count == 0) {
           req.body.cid = 0
           Blog.create(req.body)
             .then(data => res.json(data))

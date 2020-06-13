@@ -18,7 +18,8 @@ class Blog extends Component {
       posts: [],
       pivot: 0,
       active: true,
-      email: ""
+      email: "",
+      userData: "",
     };
   }
   showIt = (elementId) => {
@@ -28,6 +29,12 @@ class Blog extends Component {
 
   componentDidMount() {
     this.getPosts()
+    axios.get('/api/isLogged')
+      .then(res => {
+          this.setState({ userData: [res.data.user, res.data.type]})
+      }).catch(err => {
+        console.log(err)
+      })
   }
 
   getPosts = () => {
@@ -99,13 +106,13 @@ class Blog extends Component {
         <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&display=swap" rel="stylesheet" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <meta name="description" content="Explore more on Aziz Stark's blog" />
-        <Navba></Navba>
+        <Navba userData = {this.state.userData}></Navba>
         <div style={{ height: '100%' }}>
           <h1 className={bstyles.sidebar}>U-Learn</h1>
           <section className={`hero is-fullheight`}  >
             <div className="columns is-desktop" >
               <div className="column" >
-                <img  effect="blur" alt="header" src={field} className={`${bstyles.head1}`} />
+                <img effect="blur" alt="header" src={field} className={`${bstyles.head1}`} />
               </div>
               <div className={`column ${bstyles.htitle}`}>
                 <div className={bstyles.adapt}>
@@ -125,7 +132,7 @@ class Blog extends Component {
             </div>
             <div className={`container ${bstyles.holder}`}>
               <form onSubmit={(e) => this.subscribe(e)}>
-                <br/>
+                <br />
                 <h1 className='title' style={{ color: 'white', textAlign: 'center' }} >Join my blog</h1><br />
                 <center><input className={`${bstyles.inputarea} ${bstyles.inputx}`} onChange={(e) => this.setState({ email: e.target.value })} name="user_email" placeholder="Your email address" type='email' required /></center><br />
                 <br />
@@ -143,14 +150,14 @@ class Blog extends Component {
 function box(wtype, title, cid, date, index, image, tag) {
   return (<div className={`column is-full-touch ${bstyles.wrapper} ${wtype} ${bstyles.slider}`} key={index}>
     <Link to={{ pathname: `blog/${cid}/${title.replace(/ /g, "-")}` }} style={{ color: 'inherit' }}>
-    <LazyLoadComponent>
-      <div className={`${bstyles.box}`} style={{ backgroundImage: `linear-gradient(42.51deg, rgba(3, 3, 3, 0.55) -3.51%, rgba(86, 85, 85, 0.51) 97.42%),url(https://res.cloudinary.com/azizcloud/image/upload/${transformations.transformations.cards}${image.slice(50)})` }}>
-        <h1 className={bstyles.htext}>{title}</h1>
-        <br />
-        <h1 className={bstyles.stext}>{date}</h1>
-        <h1 className={bstyles.tag}>{tag}</h1>
-      </div>
-    </LazyLoadComponent>
+      <LazyLoadComponent>
+        <div className={`${bstyles.box}`} style={{ backgroundImage: `linear-gradient(42.51deg, rgba(3, 3, 3, 0.55) -3.51%, rgba(86, 85, 85, 0.51) 97.42%),url(https://res.cloudinary.com/azizcloud/image/upload/${transformations.transformations.cards}${image.slice(50)})` }}>
+          <h1 className={bstyles.htext}>{title}</h1>
+          <br />
+          <h1 className={bstyles.stext}>{date}</h1>
+          <h1 className={bstyles.tag}>{tag}</h1>
+        </div>
+      </LazyLoadComponent>
     </Link>
   </div>)
 }

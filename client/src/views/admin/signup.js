@@ -102,7 +102,7 @@ class signup extends Component {
 
                             <h1 className='title' style={{ fontSize: 50, color: 'white', textAlign: 'center', fontWeight: 700, letterSpacing: '0.1em' }} > Sign up </h1> <br />
                             <p className="control has-icons-left">
-                                <input onChange={this.updateForm} name="user_name" className={bstyles.inputarea} type="user_name" placeholder="Username" required />
+                                <input onChange={this.updateForm} name="user_name" className={bstyles.inputarea} type="user_name" placeholder="Username" style={{ textTransform: 'lowercase' }} required />
                                 <span className="icon is-small is-left">
                                     <FontAwesomeIcon icon={faEnvelope} size="1x" />
                                 </span>
@@ -129,6 +129,9 @@ class signup extends Component {
                             <br /><br />
                             <center>
                                 <button className={bstyles.nbutton} value="submit"> Sign up </button>
+                                <br />
+                                <br />
+                                <a href="/admin/login"> or Login</a>
                             </center>
                         </form>
                     </div>

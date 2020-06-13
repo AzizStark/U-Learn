@@ -8,8 +8,21 @@ class Navba extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      burger: ""
+      burger: "",
+      userData: ""
     }
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({
+      userData: props.userData
+    })
+  }
+
+  componentDidMount() {
+    this.setState({
+      userData: this.props.userData
+    })
   }
 
   showIt = (elementId, e) => {
@@ -36,7 +49,7 @@ class Navba extends Component {
         style={{ backgroundColor: "#00000000" }}
       >
         <div className="navbar-brand">
-          <a className="navbar-item" href="# " >
+          <a className="navbar-item" href="/" >
             <img src={polygon} width="90" height="60" alt="logo" />
           </a>
 
@@ -60,6 +73,7 @@ class Navba extends Component {
             <a className="navbar-item" id={bstyles.navbarItem} href="/blog">Home</a>
             <a className="navbar-item" id={bstyles.navbarItem} href="/" >About</a>
             <a className="navbar-item" id={bstyles.navbarItem} href="/contact">Contact</a>
+            <a className="navbar-item" id={bstyles.navbarItem} href={this.state.userData[0] !== undefined ? "/admin/dashboard" : "/admin/login"} style={this.state.userData[0] !== undefined ? {color: "#f9c567"} : {color: "white"}} >{this.state.userData[0] !== undefined ? "Welcome "+this.state.userData[1]+", "+this.state.userData[0] : "Login"  }</a>
           </div>
         </div>
       </nav>

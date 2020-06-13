@@ -94,7 +94,7 @@ class login extends Component {
 
                             <h1 className='title' style={{ fontSize: 50, color: 'white', textAlign: 'center', fontWeight: 700, letterSpacing: '0.1em' }} > Login </h1> <br />
                             <p className="control has-icons-left">
-                                <input onChange={this.updateForm} name="user_name" className={bstyles.inputarea} type="user_name" placeholder="Username" required />
+                                <input onChange={this.updateForm} name="user_email" style={{ textTransform: 'lowercase' }} className={bstyles.inputarea} type="email" placeholder="Username" required />
                                 <span className="icon is-small is-left">
                                     <FontAwesomeIcon icon={faEnvelope} size="1x" />
                                 </span>
