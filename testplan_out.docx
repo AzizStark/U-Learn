@@ -1,0 +1,10 @@
+{ _id: 5ee5b065010456aa60f2ee2d,
+  name: 'assignment.docx',
+  filedata:
+   Binary {
+     _bsontype: 'Binary',
+     sub_type: 0,
+     position: 19312,
+     buffer:
+      <Buffer 55 45 73 44 42 42 51 41 42 67 41 49 41 41 41 41 49 51 44 66 70 4e 4a 73 57 67 45 41 41 43 41 46 41 41 41 54 41 41 67 43 57 30 4e 76 62 6e 52 6c 62 6e ... > },
+  __v: 0 }

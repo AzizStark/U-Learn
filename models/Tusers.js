@@ -20,10 +20,6 @@ const TSignSchema = new Schema({
     type: String,
     required: [true, 'Pepper required']
   },
-  courses: {
-    type: Array,
-    maxlength: 100
-  },
   messages: {
     type: Array,
     maxlength: 10000

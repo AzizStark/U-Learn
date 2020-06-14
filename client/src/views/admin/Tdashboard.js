@@ -198,8 +198,9 @@ loader = () => {
                     </div>
 
                     <div className="column columns" style={{flexDirection: 'column',backgroundColor: '#444449', padding: 10, borderRadius: 8, margin: 0}}>
-                      <button style={{marginBottom: 10}} className={`${dstyles.cbutton2} column`} onClick={()=>{window.open('editor#new')}}>Create Course</button>                         
-                      <button className={`${dstyles.cbutton2} column`} onClick={(e)=>{this.logout()}}>Log out</button>  
+                    <button style={{marginBottom: 10}} className={`${dstyles.cbutton2} column`} onClick={()=>{window.open('editor#new')}}>Create Course</button>                         
+                    <button style={{marginBottom: 10}} className={`${dstyles.cbutton2} column`} onClick={(e) => { this.logout() }}>Log out</button> 
+                    <button className={`${dstyles.cbutton2} column`} onClick={(e)=>{ window.open('/admin/chat') }}> Chat </button> 
                     </div>
                   
                   </div>

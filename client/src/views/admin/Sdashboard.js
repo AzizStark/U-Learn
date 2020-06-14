@@ -4,7 +4,8 @@ import loading from "./loading.gif";
 import dstyles from '../blog/blog.module.css';
 import forest from './forest.jpg';
 import Footer from '../blog/footer'
-import logo from '../blog/Polygon.svg'
+import logo from '../blog/Polygon.svg';
+import { Link } from 'react-router-dom'
 
 class SDashboard extends Component {
 
@@ -144,6 +145,7 @@ class SDashboard extends Component {
 
     logout = () => {
         localStorage.removeItem('content')
+        localStorage.removeItem('recipient')
         axios.get('/api/logout')
             .then(res => {
                 this.props.history.push("login")
@@ -192,7 +194,7 @@ class SDashboard extends Component {
                                 </div>
 
                                 <div className="column columns" style={{ flexDirection: 'column', backgroundColor: '#444449', padding: 10, borderRadius: 8, margin: 0 }}>
-                                    <button style={{ marginBottom: 10 }} className={`${dstyles.cbutton2} column`} onClick={() => { window.open('editor#new') }}>Create Course</button>
+                                    <button style={{marginBottom: 10}} className={`${dstyles.cbutton2} column`} onClick={(e)=>{ window.open('/admin/chat') }}> Chat </button> 
                                     <button className={`${dstyles.cbutton2} column`} onClick={(e) => { this.logout() }}>Log out</button>
                                 </div>
                             </div>
@@ -217,9 +219,12 @@ class SDashboard extends Component {
                                             </div>
 
                                             <div className="level-right" >
-                                                <p style={{ backgroundColor: '#3B3B40', borderRadius: 8, padding: 10, height: 50 }} className="level-item">Message author</p>
+                                                <p style={{ backgroundColor: '#3B3B40', borderRadius: 8, padding: 10, height: 50 }} className="level-item">Assignments</p>
                                                 <div className="level-item" style={{ backgroundColor: '#3B3B40', borderRadius: 8 }}>
                                                     <input type='button' className={dstyles.cbutton} value="View" onClick={() => { window.open(`/blog/${post.cid}/${post.title}`) }} />
+                                                    <Link type='button' style={{ paddingTop: 14 }} className={dstyles.cbutton} to={{
+                                                        pathname: "/admin/chat", recipientProps: { recipient: post.author }
+                                                    }}> Chat </Link>
                                                 </div>
 
                                             </div>

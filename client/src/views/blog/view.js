@@ -86,8 +86,6 @@ class view extends Component {
     }
   }
 
-
-
   getEnrolledList = () => {
     const limit = 6
     axios.get('/api/enrolledtitles', {
@@ -143,7 +141,13 @@ class view extends Component {
             <div className={`column ${bstyles.postbox} ${bstyles.slider}`}>
               <div className="container" style={{ minHeight: 400 }}>
                 <div className={bstyles.contentArea} style={{ backgroundColor: "#00000000" }}>
-                  {renderHTML(`${this.state.content}`)}
+                 
+                  {this.state.isEnrolled === true | this.state.userType == 'teacher' ? renderHTML(`${this.state.content}`) :
+                    <div>
+                      <center> Enroll now to view this course </center>
+                    </div>
+                  }
+
                 </div>
               </div>
               <br /><br /><br />

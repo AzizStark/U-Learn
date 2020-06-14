@@ -10,24 +10,26 @@ import Editor from './views/admin/editor';
 import NotFound from './views/blog/404';
 import TDashboard from './views/admin/Tdashboard';
 import SDashboard from './views/admin/Sdashboard';
+import Fileloader from './views/admin/fileloader';
 import Chat from './views/admin/chat'
 import * as serviceWorker from './serviceWorker';
 
 const routing = (
   <Router>
     <div>
-      <Route exact path="/" component={Blog} />
+      <Route exact path="/" component={Blog}/>
       <Route exact path="/blog" component={Blog} />
-      <Route path="/blog/:id" component={View} />
-      <Route path="/contact" component={Contact} />
-      <Route path="/chat" component={Chat} />
-      <Route exact path="/admin/editor" component={Editor} />
-      <Route exact path="/admin/editor/:cid/:id" component={Editor} />
-      <Route path="/admin/login" component={Login} />
-      <Route path="/admin/signup" component={Signup} />
+      <Route exact path="/file" component={Fileloader}/>
+      <Route path="/blog/:id" component={View}/>
+      <Route path="/contact" component={Contact}/>
+      <Route path="/admin/chat" component={Chat}/>
+      <Route exact path="/admin/editor" component={Editor}/>
+      <Route exact path="/admin/editor/:cid/:id" component={Editor}/>
+      <Route path="/admin/login" component={Login}/>
+      <Route path="/admin/signup" component={Signup}/>
       <Route path="/404" component={NotFound} />
-      <Route path="/admin/Tdashboard" component={TDashboard} />
-      <Route path="/admin/Sdashboard" component={SDashboard} />
+      <Route path="/admin/Tdashboard" component={TDashboard}/>
+      <Route path="/admin/Sdashboard" component={SDashboard}/>
     </div>
   </Router>
 )

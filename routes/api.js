@@ -4,11 +4,18 @@ import uimage from '../models/Images';
 import mailgun from 'mailgun-js';
 import Susers from '../models/Susers';
 import Tusers from '../models/Tusers';
+import Files from '../models/Files';
+import Messages from '../models/Messages';
 import { uploader, cloudinaryConfig, v2 } from '../config/cloudinaryConfig'
 import { multerUploads, dataUri } from '../middlewares/multerUpload';
 import mongoose from 'mongoose';
 import crypto from 'crypto';
+import multer from 'multer';
+import fs from 'fs';
 
+
+const upload = multer({ dest: 'upload/' });
+var type = upload.single('myFile');
 
 const router = express.Router();
 router.use("*", cloudinaryConfig);
@@ -35,6 +42,37 @@ router.get('/isLogged', (req, res, next) => {
   }
 })
 
+
+
+//Upload File
+router.post('/uploadfile', type, (req, res) => {
+  var thefile = fs.readFileSync(req.file.path);
+  var encode_image = thefile.toString('base64');
+
+  Files.create({
+    "name": "assignment.docx",
+    "filedata": encode_image,
+  })
+    .then(data => { console.log(data) })
+    .catch(err => { console.log(err) })
+
+  console.log(encode_image)
+  res.sendStatus(200)
+});
+
+
+router.get('/downloadfile', type, (req, res) => {
+
+  let fileName = "assignment.docx"
+
+  Files.findOne({"name" : fileName })
+    .then(data => {
+      res.send(data)
+      // console.log(data)
+      // const header = Buffer.from(data.filedata, 'base64')
+    })
+    .catch(err => { console.log(err) })
+});
 
 
 //for new user to sign up
@@ -320,6 +358,81 @@ router.get('/enrolledtitles', requireAuth, (req, res, next) => {
       res.send(data)
     }).catch(err =>
       res.status(404).json({ message: "not found" }))
+})
+
+//gets messages
+router.get('/getmessage', requireAuth, (req, res, next) => {
+  Messages.find({ $or: [{ "users": [req.session.user, req.query.recipient] }, { "users": [req.query.recipient, req.session.user] }] })
+    .then(data => res.send(data))
+    .catch(err => res.status(404).json({ message: "not found" }))
+})
+
+//sends message
+router.put('/sendmessage', requireAuth, (req, res, next) => {
+  Messages.findOneAndUpdate({ $or: [{ "users": [req.session.user, req.body.recipient] }, { "users": [req.body.recipient, req.session.user] }] }, {
+    $set: {
+      "users": [req.body.recipient, req.session.user],
+      "messages": req.body.messages
+    }
+  }, { upsert: true })
+    .then(data => {
+      var cuser;
+      var duser;
+      if (req.session.userType === 'student') {
+        cuser = Susers
+        duser = Tusers
+      }
+      else {
+        cuser = Tusers
+        duser = Susers
+      }
+      cuser.findOneAndUpdate({ "userName": req.session.user },
+        {
+          $addToSet:
+          {
+            "messages":
+            {
+              id: data._id,
+              recipient: req.body.recipient
+            }
+          }
+        }, { upsert: true })
+        .then(data2 => {
+          duser.findOneAndUpdate({ "userName": req.body.recipient },
+            {
+              $addToSet:
+              {
+                "messages":
+                {
+                  id: data._id,
+                  recipient: req.session.user
+                }
+              }
+            }, { upsert: true })
+            .then(data => { res.send(data) }).catch(err => console.log(err))
+        }
+        ).catch(err => console.log(err))
+    })
+    .catch(err => res.status(403).json({ message: "Unable to create" }))
+})
+
+//sends messagelist
+router.get('/messagelist', requireAuth, (req, res, next) => {
+
+  let cuser
+
+  if (req.session.userType === 'student') {
+    cuser = Susers
+  }
+  else {
+    cuser = Tusers
+  }
+
+  cuser.findOne({ userName: req.session.user }, 'messages')
+    .then(data => { res.send(data) })
+    .catch(err => res.status(403).json({ message: "Unable to create" }))
+
+
 })
 
 //enroll a new course

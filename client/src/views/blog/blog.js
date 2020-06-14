@@ -105,7 +105,7 @@ class Blog extends Component {
           <section className={`hero is-fullheight`}  >
             <div className="columns is-desktop" >
               <div className="column" >
-                <img effect="blur" alt="header" src={field} className={`${bstyles.head1}`} />
+                <img effect="blur" alt="header" src="https://images.pexels.com/photos/4144923/pexels-photo-4144923.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" className={`${bstyles.head1}`} />
               </div>
               <div className={`column ${bstyles.htitle}`}>
                 <div className={bstyles.adapt}>
