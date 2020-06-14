@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'
-import logo from '../blog/Polygon.svg'
-import bstyles from '../blog/blog.module.css';
+import { faEnvelope, faLock, faGraduationCap, faChalkboardTeacher, faUser } from '@fortawesome/free-solid-svg-icons'
+import logo from '../ulearn/Polygon.svg'
+import bstyles from '../ulearn/blog.module.css';
 import forest from './forest.jpg'
-import Footer from '../blog/footer';
+import Footer from '../ulearn/footer';
 
 class signup extends Component {
     constructor(props) {
@@ -77,7 +77,7 @@ class signup extends Component {
         return (
             <div className="columns">
                 <div className="column">
-                    <img alt="header" className={bstyles.sideimg} style={{ width: '50%', height: '100vh', position: 'fixed', objectFit: 'cover' }} src={forest} />
+                    <img alt="header" className={bstyles.sideimg} style={{ width: '50%', height: '100vh', position: 'fixed', objectFit: 'cover' }} src="https://images.unsplash.com/photo-1585314540452-982cb5936d71?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1868&q=80" />
                     <img src={logo} alt="logo" style={{ width: 80, margin: 20, zIndex: 99, position: 'fixed' }} />
                 </div>
                 <div className="column" >
@@ -87,13 +87,13 @@ class signup extends Component {
                             <ul>
                                 <li className={this.state.userMode[0]} onClick = {() => this.changeType('S')}>
                                 <a>
-                                    <span className="icon is-small"><i class="fas fa-image" aria-hidden="true"></i></span>
+                                    <FontAwesomeIcon icon={faGraduationCap} size="1x" />&nbsp;&nbsp;
                                     <span>Student</span>
                                 </a>
                                 </li>
                                 <li className={this.state.userMode[1]} onClick = {() => this.changeType('T')}>
                                 <a>
-                                    <span className="icon is-small"><i class="far fa-file-alt" aria-hidden="true"></i></span>
+                                    <FontAwesomeIcon icon={faChalkboardTeacher} size="1x" />&nbsp;&nbsp;
                                     <span>Teacher</span>
                                 </a>
                                 </li>
@@ -104,7 +104,7 @@ class signup extends Component {
                             <p className="control has-icons-left">
                                 <input onChange={this.updateForm} name="user_name" className={bstyles.inputarea} type="user_name" placeholder="Username" style={{ textTransform: 'lowercase' }} required />
                                 <span className="icon is-small is-left">
-                                    <FontAwesomeIcon icon={faEnvelope} size="1x" />
+                                    <FontAwesomeIcon icon={faUser} size="1x" />
                                 </span>
                             </p><br /><br />
                             <p className="control has-icons-left">

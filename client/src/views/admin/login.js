@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'
+import { faEnvelope, faLock, faChalkboardTeacher, faGraduationCap } from '@fortawesome/free-solid-svg-icons'
 import logo from '../blog/Polygon.svg'
 import bstyles from '../blog/blog.module.css';
-import forest from './forest.jpg'
 import Footer from '../blog/footer';
 
 class login extends Component {
@@ -79,13 +78,13 @@ class login extends Component {
                             <ul>
                                 <li className={this.state.userMode[0]} onClick = {() => this.changeType('S')}>
                                 <a>
-                                    <span className="icon is-small"><i class="fas fa-image" aria-hidden="true"></i></span>
+                                    <FontAwesomeIcon icon={faGraduationCap} size="1x" />&nbsp;&nbsp;
                                     <span>Student</span>
                                 </a>
                                 </li>
                                 <li className={this.state.userMode[1]} onClick = {() => this.changeType('T')}>
                                 <a>
-                                    <span className="icon is-small"><i class="far fa-file-alt" aria-hidden="true"></i></span>
+                                    <FontAwesomeIcon icon={faChalkboardTeacher} size="1x" />&nbsp;&nbsp;
                                     <span>Teacher</span>
                                 </a>
                                 </li>
