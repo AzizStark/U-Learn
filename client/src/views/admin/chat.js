@@ -13,6 +13,10 @@ class chat extends Component {
         }
     }
 
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
     componentDidMount() {
         axios.get('/api/isLogged')
             .then(res => {
@@ -31,6 +35,7 @@ class chat extends Component {
             const reciever = localStorage.getItem('recipient');
             this.setState({ recipient: reciever })
         }
+        this.interval = setInterval(() => this.getMessage(), 5000);
     }
 
     addMessage = () => {
