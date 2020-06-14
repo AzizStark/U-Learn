@@ -5,7 +5,7 @@
 
 Hosted live on herokuapp: <a href="https://e-learningwebapp.herokuapp.com/admin/Tdashboard"> U-Learn Online </a>
 
-Features:
+<b> Features: </b>
 
    1. Seperate login/ signup for students and course creators.
    2. Added Live chat support for students to connect with the staff.
