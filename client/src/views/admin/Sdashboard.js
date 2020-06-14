@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
 import loading from "./loading.gif";
-import dstyles from '../blog/blog.module.css';
+import dstyles from '../ulearn/blog.module.css';
 import forest from './forest.jpg';
-import Footer from '../blog/footer'
-import logo from '../blog/Polygon.svg';
+import Footer from '../ulearn/footer'
+import logo from '../ulearn/Polygon.svg';
 import { Link } from 'react-router-dom'
 
 class SDashboard extends Component {

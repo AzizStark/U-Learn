@@ -7,13 +7,13 @@ import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import ImageUploader from 'react-images-upload';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
-import bstyles from '../blog/blog.module.css';
+import bstyles from '../ulearn/blog.module.css';
 import renderHTML from 'react-render-html';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faEdit, faEye, faCode } from '@fortawesome/free-solid-svg-icons'
-import forest from '../blog/mount.jpg';
+import forest from '../ulearn/mount.jpg';
 import loading from "./loading.gif";
-import Footer from '../blog/footer'
+import Footer from '../ulearn/footer'
 
 class editor extends Component {
   

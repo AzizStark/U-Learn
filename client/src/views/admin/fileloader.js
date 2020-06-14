@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'
-import logo from '../blog/Polygon.svg'
-import bstyles from '../blog/blog.module.css';
+import logo from '../ulearn/Polygon.svg'
+import bstyles from '../ulearn/blog.module.css';
 import forest from './forest.jpg'
-import Footer from '../blog/footer';
+import Footer from '../ulearn/footer';
 
 class Fileloader extends Component {
     constructor(props) {

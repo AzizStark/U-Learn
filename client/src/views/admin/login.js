@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope, faLock, faChalkboardTeacher, faGraduationCap } from '@fortawesome/free-solid-svg-icons'
-import logo from '../blog/Polygon.svg'
-import bstyles from '../blog/blog.module.css';
-import Footer from '../blog/footer';
+import logo from '../ulearn/Polygon.svg'
+import bstyles from '../ulearn/blog.module.css';
+import Footer from '../ulearn/footer';
 
 class login extends Component {
     constructor(props) {

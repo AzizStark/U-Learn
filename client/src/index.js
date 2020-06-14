@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
-import Blog from './views/blog/blog';
-import View from './views/blog/view';
-import Contact from './views/blog/contact';
+import Blog from './views/ulearn/blog';
+import View from './views/ulearn/view';
+import Contact from './views/ulearn/contact';
 import Login from './views/admin/login';
 import Signup from './views/admin/signup';
 import Editor from './views/admin/editor';
-import NotFound from './views/blog/404';
+import NotFound from './views/ulearn/404';
 import TDashboard from './views/admin/Tdashboard';
 import SDashboard from './views/admin/Sdashboard';
 import Fileloader from './views/admin/fileloader';

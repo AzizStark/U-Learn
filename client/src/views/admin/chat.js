@@ -106,7 +106,7 @@ class chat extends Component {
                         {
                             this.state.messages.map((data, index) =>
                                 <div>
-                                    <span class="tag is-success is-success" style={data.source === 'S' ? { float:  (this.state.userType === "student" ? "right" : "left"), fontSize: 20 } : { float: (this.state.userType === "student" ? "left" : "Right"), fontSize: 20 }}> {data.message}  </span>
+                                    <span className = {`tag ${data.source === 'S' ?  (this.state.userType === "student" ? "is-success" : "is-info") : (this.state.userType === "student" ? "is-info" : "is-success")}`} style={data.source === 'S' ? { float:  (this.state.userType === "student" ? "right" : "left"), fontSize: 20 } : { float: (this.state.userType === "student" ? "left" : "Right"), fontSize: 20 }}> {data.message}  </span>
                                     <br /> <br />
                                 </div>
                             )

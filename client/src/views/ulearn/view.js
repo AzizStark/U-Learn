@@ -68,6 +68,15 @@ class view extends Component {
   }
 
   enrollCourse = () => {
+     
+   axios.get('/api/isLogged')
+    .then(res => {
+    }).catch(err => {
+        if (err.response.status === 401) {
+            this.props.history.push('/admin/login');
+        }
+    })
+    
     if (this.state.isEnrolled) {
       window.alert("Course already enrolled")
     }
