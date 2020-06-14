@@ -47,16 +47,15 @@ router.get('/isLogged', (req, res, next) => {
 //Upload File
 router.post('/uploadfile', type, (req, res) => {
   var thefile = fs.readFileSync(req.file.path);
-  var encode_image = thefile.toString('base64');
 
   Files.create({
     "name": "assignment.docx",
-    "filedata": encode_image,
+    "filedata": thefile,
   })
     .then(data => { console.log(data) })
     .catch(err => { console.log(err) })
 
-  console.log(encode_image)
+  console.log(thefile)
   res.sendStatus(200)
 });
 
@@ -67,9 +66,8 @@ router.get('/downloadfile', type, (req, res) => {
 
   Files.findOne({"name" : fileName })
     .then(data => {
-      res.send(data)
-      // console.log(data)
-      // const header = Buffer.from(data.filedata, 'base64')
+      console.log(data)
+      fs.writeFileSync(fileName, data.fileData.buffer);
     })
     .catch(err => { console.log(err) })
 });

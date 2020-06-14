@@ -219,7 +219,7 @@ class SDashboard extends Component {
                                             </div>
 
                                             <div className="level-right" >
-                                                <p style={{ backgroundColor: '#3B3B40', borderRadius: 8, padding: 10, height: 50 }} className="level-item">Assignments</p>
+                                                {/* <p style={{ backgroundColor: '#3B3B40', borderRadius: 8, padding: 10, height: 50 }} className="level-item">Assignments</p> */}
                                                 <div className="level-item" style={{ backgroundColor: '#3B3B40', borderRadius: 8 }}>
                                                     <input type='button' className={dstyles.cbutton} value="View" onClick={() => { window.open(`/blog/${post.cid}/${post.title}`) }} />
                                                     <Link type='button' style={{ paddingTop: 14 }} className={dstyles.cbutton} to={{

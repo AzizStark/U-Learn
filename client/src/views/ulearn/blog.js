@@ -110,6 +110,7 @@ class Blog extends Component {
               <div className={`column ${bstyles.htitle}`}>
                 <div className={bstyles.adapt}>
                   <h1 className={bstyles.title1}>Hello, welcome to the U-learn.</h1>
+                  <p className={bstyles.title1} style={{ fontSize: 'calc(0.3vw + 12px)', paddingTop: 30, fontWeight: 300 }}> The smartest E-Learning platform. <b> {this.state.author} </b></p>
                 </div>
               </div>
             </div>
