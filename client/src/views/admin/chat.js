@@ -107,7 +107,7 @@ class chat extends Component {
                     <div style={{backgroundColor: '#5757df', height: '10%', display: 'flex'}}>
                         <h1 style={{ textTransform: 'capitalize', alignSelf: 'center', paddingLeft: 10, fontSize: 22}}> {this.state.recipient} - ULearn Chat </h1>
                     </div>
-                    <div style={{ height: '85%', overflowY: 'scroll', padding: 10}}>
+                    <div style={{ height: '85%', overflowY: 'scroll', padding: 10}} className="targetDiv">
                         {
                             this.state.messages.map((data, index) =>
                                 <div>
